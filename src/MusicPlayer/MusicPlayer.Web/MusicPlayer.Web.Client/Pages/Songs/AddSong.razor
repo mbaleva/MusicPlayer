@@ -1,0 +1,37 @@
+﻿@page "/songs/add"
+@using MusicPlayer.Web.Shared.Songs
+
+<h1>Add new Song</h1>
+
+<div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 my-3">
+        <EditForm Model="model" OnValidSubmit="OnSubmitted">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+            <div class="input-group mb-3">
+                <div class="input-group-prepend w-25">
+                    <span class="input-group-text w-100">Artists</span>
+                </div>
+                <InputText class="form-control" @bind-Value="model.ArtistName" />
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend w-25">
+                    <span class="input-group-text w-100">Song</span>
+                </div>
+                <InputText class="form-control" @bind-Value="model.SongName" />
+            </div>
+            <button class="btn btn-success btn-lg" type="submit">Add song</button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    ApiResponse<AddSongResponseModel> response;
+
+    AddSongInputModel model = new AddSongInputModel();
+
+    async Task OnSubmitted()
+    {
+        this.response = await this.ApiClient.AddSong(model);
+    }
+}
